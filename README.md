@@ -12,3 +12,6 @@ Este proyecto fue diseñado con React, Vercel, Firebase.
 
 Link Vercel
 entrega-final-react-rivas.vercel.app
+(inicialmente el link funcionaba, luego dejó de hacerlo, intente subir uno nuevo y no deja :()
+
+![Uploading Media_240212_190655.gif…]()
