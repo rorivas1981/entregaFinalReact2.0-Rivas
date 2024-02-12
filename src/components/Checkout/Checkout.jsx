@@ -1,21 +1,22 @@
 import { useState } from "react";
-import OrderForm from '../OrderForm/OrderForm';
 import { Button } from 'react-bootstrap';
+import Swal from 'sweetalert2'; 
 import { collection, addDoc, writeBatch, query, where, getDocs, documentId } from "firebase/firestore";
 import { db } from "../../services/firebase/firebaseConfig";
 import { useNotification } from "../../notification/NotificationService";
-import { useCart } from "../../context/CartContext"; // Importar useCart para acceder al carrito
+import { useCart } from "../../context/CartContext";
+import OrderForm from '../OrderForm/OrderForm';
 
 const Checkout = () => {
-    const [loading, setLoading] = useState(false);
+    const [processing, setProcessing] = useState(false);
     const [orderId, setOrderId] = useState(null);
-    const { cart, total, clearCart } = useCart(); // Obtener la función clearCart del contexto del carrito
+    const [buyerData, setBuyerData] = useState(null);
+    const { cart, total, clearCart } = useCart();
     const { showNotification } = useNotification();
     const [orderData, setOrderData] = useState(null);
-    const [dataValidated, setDataValidated] = useState(false);
+    const [orderGenerated, setOrderGenerated] = useState(false);
 
     const createOrder = async (userData) => {
-        setLoading(true);
         const order = {
             buyer: userData,
             items: cart,
@@ -26,6 +27,8 @@ const Checkout = () => {
         const outOfStock = [];
 
         try {
+            setProcessing(true);
+
             const ids = cart.map(prod => prod.id);
             const productsCollection = query(collection(db, 'products'), where(documentId(), 'in', ids));
             const querySnapshot = await getDocs(productsCollection);
@@ -51,7 +54,8 @@ const Checkout = () => {
                 const { id } = await addDoc(orderCollection, order);
                 setOrderId(id);
                 setOrderData(order);
-                clearCart(); // Limpiar el carrito después de generar la orden con éxito
+                clearCart();
+                setOrderGenerated(true);
             } else {
                 showNotification('error', 'Producto seleccionado sin stock');
             }
@@ -59,33 +63,38 @@ const Checkout = () => {
             console.error('Error al crear la orden:', error);
             showNotification('error', 'Ocurrió un error al procesar la orden');
         } finally {
-            setLoading(false);
+            setProcessing(false);
         }
     };
 
-    if (orderId) {
-        return <h1>El ID de su compra es: {orderId}</h1>;
-    }
-
-    const handleCreateOrder = () => {
-        createOrder({});
+    const handleValidationSuccess = () => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Datos validados correctamente',
+            text: 'Proceda a generar orden',
+        });
     };
 
     return (
-        <div className="container">
-            <h1>PAGAR</h1>
-            <OrderForm onCreate={() => setDataValidated(true)} />
-            {dataValidated && (
-                <Button onClick={handleCreateOrder} variant="primary" disabled={loading}>
-                    {loading ? 'Procesando...' : 'Generar orden'}
-                </Button>
-            )}
-            {orderData && (
-                <div>
-                    <h2>Orden generada:</h2>
-                    <p>Comprador: {orderData.buyer.name}</p>
-                    <p>Total: {orderData.total}</p>
-                    {/* Aquí puedes mostrar más detalles de la orden si lo deseas */}
+        <div>
+            {}
+            <nav>
+                {}
+            </nav>
+            {orderGenerated ? (
+                <div className="container">
+                    <h1>Orden generada:</h1>
+                    <p>Comprador: {buyerData.name}</p>
+                    <p>Total: USD {orderData.total}</p>
+                    <p>Número de orden: {orderId}</p>
+                </div>
+            ) : ( 
+                <div className="container">
+                    <h1>PAGAR</h1>
+                    <OrderForm onCreate={(userData) => { setBuyerData(userData); handleValidationSuccess(); }} />
+                    <Button onClick={() => createOrder(buyerData)} variant="primary" style={{ backgroundColor: 'orangered', borderColor: 'orangered', color: 'white' }} disabled={processing}>
+                        {processing ? 'Procesando...' : 'Generar orden'}
+                    </Button>
                 </div>
             )}
         </div>

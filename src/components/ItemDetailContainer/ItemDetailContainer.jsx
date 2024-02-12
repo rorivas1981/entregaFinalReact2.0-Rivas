@@ -4,6 +4,8 @@ import ItemDetail from "../ItemDetail/ItemDetail";
 import { useNotification } from "../../notification/NotificationService";
 import { db } from "../../services/firebase/firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
+import { createProductsAdaptedFromFirestore } from "../../adapters/createProductAdaptedFromFirestore";
+import { Container, Row, Col } from 'react-bootstrap';
 
 const ItemDetailContainer = () => {
   const [loading, setLoading] = useState(true);
@@ -11,7 +13,7 @@ const ItemDetailContainer = () => {
 
   const { productId } = useParams();
 
-  const { showNotification } = useNotification()
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     if (product) document.title = product.name;
@@ -24,20 +26,19 @@ const ItemDetailContainer = () => {
   useEffect(() => {
     setLoading(true);
 
-    const productDocument = doc(db, 'products', productId)
+    const productDocument = doc(db, 'products', productId);
 
     getDoc(productDocument)
       .then(queryDocumentSnapshot => {
-        const fields = queryDocumentSnapshot.data()
-        const productAdapted = { id: queryDocumentSnapshot.id, ...fields }
-        setProduct(productAdapted)
+        const productAdapted = createProductsAdaptedFromFirestore(queryDocumentSnapshot);
+        setProduct(productAdapted);
       })
       .catch(error => {
-        showNotification('error', 'Existe un error')
+        showNotification('error', 'Existe un error');
       })
       .finally(() => {
-        setLoading(false)
-      })
+        setLoading(false);
+      });
 
   }, [productId]);
 
@@ -46,11 +47,19 @@ const ItemDetailContainer = () => {
   }
 
   return (
-    <div>
-      <h1>Detalle</h1>
-      <h1>{product?.name}</h1>
-      <ItemDetail {...product} />
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <h1>Detalle de Producto</h1>
+          <h1>{product?.name}</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <ItemDetail {...product} />
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

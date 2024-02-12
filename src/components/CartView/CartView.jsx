@@ -7,10 +7,11 @@ const CartView = () => {
         <>
             <CartList />
             <section>
-                <Link to='/checkout'>Checkout</Link>
+                <Link to='/checkout' className="btn btn-danger text-white" style={{ backgroundColor: 'orangered', borderColor: 'red' }}>Checkout</Link>
             </section>
         </>
     );
 }
 
 export default CartView;
+

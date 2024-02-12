@@ -24,7 +24,7 @@ const Notification = ({ notificationData }) => {
 
     return (
         <div style={notificationStyles}>
-            <h4>Mensaje importante:</h4>
+            <h4>Aviso:</h4>
             <p>{notificationData.text}</p>
         </div>
     );
@@ -32,21 +32,19 @@ const Notification = ({ notificationData }) => {
 
 export const NotificationProvider = ({ children }) => {
     const [notificationData, setNotificationData] = useState({
-        type: 'success',
-        text: 'probando'
-    });
+      });
 
     const showNotification = (type, text) => {
         setNotificationData({ type, text });
     };
 
-    // Eliminar la notificación después de 2 segundos
+   
     useEffect(() => {
         const timer = setTimeout(() => {
             setNotificationData({ type: '', text: '' });
         }, 2000);
 
-        // Limpiar el temporizador cuando el componente se desmonte o la notificación cambie
+       
         return () => clearTimeout(timer);
     }, [notificationData]);
 

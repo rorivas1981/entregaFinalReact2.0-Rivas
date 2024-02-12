@@ -1,4 +1,3 @@
-// ItemCount.jsx
 import React, { useState } from 'react';
 
 const ItemCount = ({ initial = 1, stock, onAdd }) => {
@@ -18,7 +17,7 @@ const ItemCount = ({ initial = 1, stock, onAdd }) => {
 
     const handleAddToCart = () => {
         if (count > 0) {
-            onAdd(count); // Pasamos la cantidad actualizada a la función onAdd
+            onAdd(count); 
         }
     };
 

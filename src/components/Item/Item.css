@@ -1,15 +1,12 @@
-/* Item.css */
-
 .item-container {
-    background-color: #ffffff; /* Color de fondo del contenedor */
-    border: 1px solid #eaeaea; /* Borde del contenedor */
-    border-radius: 8px; /* Borde redondeado del contenedor */
-    padding: 20px; /* Espaciado interno del contenedor */
-    margin-bottom: 20px; /* Espaciado inferior entre productos */
-  }
-  
-  .item-image {
-    width: 100px; /* Ancho de la imagen */
-    margin-bottom: 10px; /* Espaciado inferior entre la imagen y otros elementos */
-  }
-  
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.item-image {
+  width: 150px;
+  margin-bottom: 10px;
+}

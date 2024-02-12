@@ -26,7 +26,7 @@ const OrderForm = ({ onCreate }) => {
         }
 
         setDataValidated(true);
-        onCreate(userData);
+        onCreate(userData); // Llamar a la función onCreate con los datos del comprador después de la validación exitosa
     };
 
     const validateEmail = (email) => {
@@ -48,7 +48,7 @@ const OrderForm = ({ onCreate }) => {
                 <Form.Label>Dirección</Form.Label>
                 <Form.Control type="text" placeholder="Ingrese su dirección" name="address" value={userData.address} onChange={handleInputChange} />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" style={{ backgroundColor: 'orangered', borderColor: 'orangered', color: 'white' }} type="submit">
                 Validar Datos
             </Button>
             {formError && !dataValidated && <Alert variant="danger">{formError}</Alert>}
