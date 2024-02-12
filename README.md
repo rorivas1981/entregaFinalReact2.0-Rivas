@@ -1,8 +1,10 @@
+(tuve que generar un repositorio nuevo, ya que intentando solucionar Vercel rompi todo)
+
 JBL LOVERS
 
 Instalación:
 1-Clona el repositorio:
-$ git clone https://github.com/rorivas1981/entregaFinalReact_Rivas
+$ git clone https://github.com/rorivas1981/entregaFinalReact2.0-Rivas
 2-Instala
 $ npm install
 3-Iniciar
