@@ -1,42 +1,7 @@
-.container {
-  max-width: 1200px;
-
-  margin: 0 auto;
-
-  padding: 20px;
-
-}
-
-.row {
-  display: flex;
-
-  flex-wrap: wrap;
-
-  justify-content: center;
-
-}
-
-.item {
-  width: calc(33.33% - 20px);
-
-  margin: 10px;
-
-  text-align: center;
-
-}
-
-.item img {
-  max-width: 100%;
-
-}
-
 .footer {
   background-color: orangered;
-
   color: white;
-
   padding: 10px;
-
   text-align: center;
 
 }

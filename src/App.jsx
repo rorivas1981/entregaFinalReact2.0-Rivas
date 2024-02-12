@@ -8,7 +8,7 @@ import { NotificationProvider } from './notification/NotificationService';
 import CartView from './components/CartView/CartView';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Checkout from './components/Checkout/Checkout';
-import './app.css'
+import './app.css';
 
 function App() {
   return (
